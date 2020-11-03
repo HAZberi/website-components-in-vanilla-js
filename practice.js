@@ -1,5 +1,5 @@
 'use strict';
-
+/* 
 console.log(document); //not useful to access document elements
 //to access all html elements
 console.log(document.documentElement);
@@ -23,8 +23,8 @@ document.getElementById('section--1');
 const allButtons = document.getElementsByTagName('button');
 console.log(allButtons);
 
-console.log(document.getElementsByClassName('btn'));
-
+console.log(document.getElementsByClassName('btn')); */
+/* 
 //Creating and inserting elements
 //.indertAdjacentHTML see implementation in money-transfer-app
 const message = document.createElement('div');
@@ -49,15 +49,15 @@ const secondmessage = message.cloneNode(true); // creates a copy
 //this example shows the difference between node and elements
 document
   .querySelector('.btn--close-cookie')
-  .addEventListener('click', function() {
-      //message.remove() || secondmessage.remove();
-      message.parentElement.removeChild(message); //for older browser support
+  .addEventListener('click', function () {
+    //message.remove() || secondmessage.remove();
+    message.parentElement.removeChild(message); //for older browser support
   });
 
 //Also see explanation on innerHTML vs insertAdjacentHTML
-
+ */
 //Styles
-
+/* 
 message.style.backgroundColor = '#37383d';
 message.style.width = '120%';
 
@@ -66,13 +66,13 @@ console.log(getComputedStyle(message).color);
 console.log(getComputedStyle(message).height);
 
 //a use case for computed style with parseInt or parseFloat
-message.style.height = Number.parseFloat(getComputedStyle(message).height) + 40 + 'px';
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height) + 40 + 'px';
 console.log(getComputedStyle(message).height);
 
 //changing css variables or custom csss
 
 //document.documentElement.style.setProperty('--color-primary','orangered');
-
 
 //Attributes
 const logo = document.querySelector('.nav__logo');
@@ -87,11 +87,11 @@ console.log(logo.setAttribute('designer', 'HazBeri'));
 console.log(logo.getAttribute('designer'));
 
 //difference between src absolute and relative paths
-console.log(logo.src);//absolute
-console.log(logo.getAttribute('src'));//relative
+console.log(logo.src); //absolute
+console.log(logo.getAttribute('src')); //relative
 
-console.log(document.querySelector('.btn--show-modal').href);//absolute
-console.log(document.querySelector('.btn--show-modal').getAttribute('href'));//relative
+console.log(document.querySelector('.btn--show-modal').href); //absolute
+console.log(document.querySelector('.btn--show-modal').getAttribute('href')); //relative
 
 //Data Attributes
 console.log(document.querySelector('.nav__logo').dataset.versionNumber);
@@ -102,3 +102,166 @@ logo.classList.add('c', 'j', 'k');
 logo.classList.remove('c', 'j', 'k');
 logo.classList.toggle('c', 'j', 'k');
 logo.classList.contains('c', 'j', 'k'); //not includes like in arrays
+ */
+//Implementing Smooth Scrolling
+/* 
+const btnLearnMore = document.querySelector('.btn--scroll-to');
+
+const section1 = document.getElementById('section--1');
+
+//implementing smooth scrolling with older browser methods
+btnLearnMore.addEventListener('click', function (e) {
+  //getting relative element coordinates (target and destination)
+  console.log(section1.getBoundingClientRect());
+  console.log(e.target.getBoundingClientRect());
+
+  //finding current scroll
+  console.log(
+    `Current X and Y scroll: ${window.pageXOffset} ${window.pageYOffset}`
+  );
+  console.log(`Current X and Y scroll: ${window.scrollX} ${window.scrollY}`);
+
+  //getting height and width of viewport
+  console.log(
+    `Viewport Height: ${document.documentElement.clientHeight
+      .toString()
+      .padStart(
+        5,
+        ' '
+      )} \nViewport Width: ${document.documentElement.clientWidth
+      .toString()
+      .padStart(6, ' ')}`
+  );
+  //scroll to element old school method
+  //for older browsers use window.pagexoffset and yoffset
+  // window.scrollTo({
+  //     left: section1.getBoundingClientRect().left + window.scrollX,
+  //     top: section1.getBoundingClientRect().top + window.scrollY,
+  //     behavior: 'smooth'
+  // });
+
+  //a new and easier method without calculations
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+ */
+//adding and removing event listeners
+/* 
+const h1 = document.querySelector('h1');
+const h4 = document.querySelector('h4');
+const himg = document.querySelector('.header__img');
+
+//Old way and can be used in a similar way in the html file
+// h1.onmouseenter = function(e){
+//     alert("hi from on mouse enter on H1 heading");
+// }
+
+//recommended method to add event listeners
+h4.addEventListener('mouseenter', e =>
+  alert(
+    `Hi from recommended method of adding event listeners and arrow functions`
+  )
+);
+
+//if the event listeners needs to be removed after triggering once
+const alertHover = e => {
+  alert(
+    `Why are you touching me, says the image! \nI will not talk to you in future`
+  );
+  himg.removeEventListener('click', alertHover);
+};
+
+himg.addEventListener('click', alertHover);
+
+//A use case with setTimeout function
+const alertOnH1 = function (e) {
+  alert('hi from on mouse enter on H1 heading');
+};
+h1.addEventListener('mouseenter', alertOnH1);
+setTimeout(() => {
+  console.log(`I will remove the event on h1. Sorry for the inconvinence`);
+  h1.removeEventListener('mouseenter', alertOnH1);
+}, 8000);
+ */
+//Event propagation and event bubbling
+/* 
+//create a random color rgb(255, 255, 255)
+
+const randomColor = (min = 0, max = 255) =>
+  `rgb(${Math.floor(Math.random() * max - min + 1) + min}, ${
+    Math.floor(Math.random() * max - min + 1) + min
+  }, ${Math.floor(Math.random() * max - min + 1) + min})`;
+
+document.querySelectorAll('.nav__link').forEach(function (el){
+  el.addEventListener("click", function(e){
+    console.log(this);
+    this.style.backgroundColor = randomColor();
+    console.log('LINK', e.target, e.currentTarget);
+
+    //stop propagation toggle the code below to see true effect of bubbling
+    // e.stopPropagation();
+});
+});
+document.querySelector('.nav__links').addEventListener('click', function(e){
+    this.style.backgroundColor = randomColor();
+    console.log("CONTAINER",e.target, e.currentTarget);
+});
+document.querySelector('.nav').addEventListener("click", function(e){
+    this.style.backgroundColor = randomColor();
+    console.log("NavBar",e.target, e.currentTarget);
+});
+ */
+//Implement Smooth Scrolling for nav links
+/* 
+// An inefficient of dealing and implementing smooth scrolling
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     console.log('LINK');
+//     const id = el.getAttribute('href');
+//     console.log(document.querySelector(id));
+//     document.querySelector(id).scrollIntoView({behavior: 'smooth'});
+//   });
+// });
+
+//Event Delegation Mehtod
+document.querySelector('.nav__links').addEventListener('click', function (e){
+  e.preventDefault();
+  if(e.target.classList.contains('nav__link')){
+    console.log('LINK');
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({behavior: "smooth"});
+  }
+});
+
+ */
+//DOM Traversing
+/* const head1 = document.querySelector('h1');
+
+//Going Downwards or finding children
+console.log(head1.querySelectorAll('.highlight'));
+console.log(head1.childNodes);
+console.log(head1.children);
+head1.firstElementChild.style.color = 'white';
+head1.lastElementChild.style.color = 'orangered';
+
+//Going Upwards or finding parents
+console.log(head1.parentNode);
+console.log(head1.parentElement);
+
+head1.closest('.header').style.backgroundColor = 'var(--color-secondary-darker)';
+head1.closest('h1').style.color = 'var(--color-tertiary-darker)';
+
+//Going Sideways -- Siblings
+console.log(head1.previousElementSibling);//element
+console.log(head1.nextElementSibling);
+
+console.log(head1.previousSibling);//node
+console.log(head1.nextSibling);//node
+
+console.log(head1.parentElement.children);
+
+[...head1.parentElement.children].forEach(function(el){
+  console.log(el);
+  if(el !== head1) el.style.transform = 'scale(0.5)';
+}); */
+
