@@ -160,7 +160,7 @@ const allSections = document.querySelectorAll('.section');
 
 const config = {
   root: null,
-  threshold: 0
+  threshold: 0.1
 }
 
 const revealContent = function (entries, observer){

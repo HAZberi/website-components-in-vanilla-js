@@ -362,3 +362,27 @@ const toggleNav = entries => {
 };
 const headerObserver = new IntersectionObserver(toggleNav, options);
 headerObserver.observe(header); */
+
+//////////////////////////Revealing Content on Scrolling////////
+/* 
+const allSections = document.querySelectorAll('.section');
+
+const config = {
+  root: null,
+  threshold: 0.1
+}
+
+const revealContent = function (entries, observer){
+  const [entry] = entries;
+  console.log(entry.isIntersecting);
+  if(!entry.isIntersecting) return
+    entry.target.classList.remove('section--hidden');
+    observer.unobserve(entry.target);
+}
+
+const contentObserver = new IntersectionObserver(revealContent, config);
+
+allSections.forEach(function(section){
+  contentObserver.observe(section);
+  section.classList.add('section--hidden');
+}) */
