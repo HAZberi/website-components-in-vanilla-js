@@ -49,7 +49,6 @@ document
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
-    console.log('LINK');
     const id = e.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
@@ -69,7 +68,7 @@ tabsContainer.addEventListener('click', function (e) {
 
   //Activate the clicked tab
   //I used optional chainning while Jonas used the following code
-  //if (!targetClicked) return;
+  //if (!targetClicked) return; Gaurd Clause Tachnique
   targetClicked?.classList.add('operations__tab--active');
 
   //Deactivating all the content by removing css class on all
@@ -80,3 +79,77 @@ tabsContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${targetClicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+//Menu Fade Animation
+
+const navbar = document.querySelector('.nav');
+
+const fadeHandler = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = e.target.closest('.nav').querySelectorAll('.nav__link');
+    const logo = e.target.closest('.nav').querySelector('img');
+    siblings.forEach(
+      function (el) {
+        if (el !== link) {
+          el.style.opacity = this;
+        }
+      }.bind(this)
+    );
+    logo.style.opacity = this;
+  }
+};
+
+navbar.addEventListener('mouseover', fadeHandler.bind(0.5));
+navbar.addEventListener('mouseout', fadeHandler.bind(1));
+
+///////////////////////////////Fade in and out function in plain javascript///////////////////////////
+
+const fade = function (el, type, ms) {
+  let fadeIn = type === 'in';
+  let opacity = fadeIn ? 0 : 1;
+  const interval = 50;
+  const duration = ms;
+  const gap = interval / duration;
+  const intervalCallback = function () {
+    opacity = fadeIn ? opacity + gap : parseFloat((opacity - gap).toFixed(1));
+    el.style.opacity = opacity;
+    if (opacity <= 0) el.style.display = 'none';
+    if (opacity <= 0 || opacity >= 1) clearInterval(fading);
+  };
+  if (fadeIn) {
+    el.style.display = 'flex';
+    el.style.opacity = opacity;
+  }
+  const fading = setInterval(intervalCallback, interval);
+  return fading;
+};
+////////////////////////Sticky Navigation Intersection Observer API///////////////
+
+const header = document.querySelector('.header');
+
+const headerHeight = parseFloat(getComputedStyle(navbar).height);
+
+const options = {
+  root: null,
+  rootMargin: `-${headerHeight + 10}px`,
+  threshold: 0,
+};
+
+const toggleNav = entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      navbar.classList.add('sticky');
+      fade(navbar, 'in', 250);
+    } else {
+      fade(navbar, 'out', 200);
+      setTimeout(() => {
+        navbar.classList.remove('sticky');
+        navbar.style.display = 'flex';
+        navbar.style.opacity = 1;
+      }, 200);
+    }
+  });
+};
+const headerObserver = new IntersectionObserver(toggleNav, options);
+headerObserver.observe(header);

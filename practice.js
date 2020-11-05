@@ -265,3 +265,100 @@ console.log(head1.parentElement.children);
   if(el !== head1) el.style.transform = 'scale(0.5)';
 }); */
 
+///////// Fade Animation/////////////////
+//Menu Fade Animation
+/* 
+const navbar = document.querySelector('.nav');
+
+const fadeHandler = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = e.target.closest('.nav').querySelectorAll('.nav__link');
+    const logo = e.target.closest('.nav').querySelector('img');
+    siblings.forEach(
+      function (el) {
+        if (el !== link) {
+          el.style.opacity = this;
+        }
+      }.bind(this)
+    );
+    logo.style.opacity = this;
+  }
+};
+
+navbar.addEventListener('mouseover', fadeHandler.bind(0.5));
+navbar.addEventListener('mouseout', fadeHandler.bind(1));
+
+var someEventHander = function (pram1, pram2, event) {
+  //console.log(this);
+  console.log(event.target);
+  console.log(event, pram1, pram2);
+};
+//add listener
+document
+  .getElementById('logo')
+  .addEventListener(
+    'click',
+    someEventHander.bind(null, 'pram1', 'pram2'),
+    false
+  );
+ */
+//////////////////Sticky Navigation//////////////////////////////////
+
+// const section1Coords = document.querySelector('#section--1').getBoundingClientRect().top;
+// window.addEventListener('scroll', function(){
+//   if(window.scrollY > section1Coords) {
+//     message.remove();
+//     navbar.classList.add('sticky')
+//   }
+//   else navbar.classList.remove('sticky')
+// })
+
+////////////////////////Sticky Navigation Intersection Observer API//////
+/* 
+
+///////////////////////////////////////Fade in and Fade Out function in Javascript///
+  const fade = function(el, type, ms){
+  let fadeIn = type === 'in'
+  let opacity = fadeIn ? 0 : 1;
+  const interval = 50;
+  const duration = ms;
+  const gap = interval/duration;
+  const intervalCallback =function (){
+    opacity = fadeIn ? opacity + gap : opacity - gap;
+    el.style.opacity = opacity;
+    if(opacity <= 0) el.style.display = 'none'
+    if(opacity <= 0 || opacity >=1) clearInterval(fading);
+  }
+  if(fadeIn){
+    el.style.display = 'flex';
+    el.style.opacity = opacity;
+  }
+  
+  const fading = setInterval(intervalCallback, interval);
+  return fading;
+}
+
+const header = document.querySelector('.header');
+
+const headerHeight = parseFloat(getComputedStyle(navbar).height);
+
+const options = {
+  root: null,
+  rootMargin: `-${headerHeight + 10}px`,
+  threshold: 0,
+};
+
+const toggleNav = entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      navbar.classList.add('sticky');
+      fade(navbar, "in", 750);
+    } else {
+      navbar.classList.remove('sticky');
+      fade(navbar, "in", 250);
+    }
+  });
+};
+const headerObserver = new IntersectionObserver(toggleNav, options);
+headerObserver.observe(header); */
