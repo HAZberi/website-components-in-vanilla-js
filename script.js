@@ -154,7 +154,7 @@ const toggleNav = entries => {
 const headerObserver = new IntersectionObserver(toggleNav, options);
 headerObserver.observe(header);
 
-//////////////////////////Revealing Content on Scrolling////////
+//////////////////Revealing Content on Scrolling//////////////////////
 
 const allSections = document.querySelectorAll('.section');
 
@@ -165,7 +165,6 @@ const config = {
 
 const revealContent = function (entries, observer){
   const [entry] = entries;
-  console.log(entry.isIntersecting);
   if(!entry.isIntersecting) return
     entry.target.classList.remove('section--hidden');
     observer.unobserve(entry.target);
@@ -178,3 +177,25 @@ allSections.forEach(function(section){
   section.classList.add('section--hidden');
 })
 
+////////////////////////////////Lazy Loading Images////////////////////////
+
+const lazyImgs = document.querySelectorAll('img[data-src]');
+const loadImages = function(entries, observer){
+  entries.forEach(entry => {
+    //the guard clause technique
+    if(!entry.isIntersecting) return
+    entry.target.src = entry.target.dataset.src;
+    entry.target.addEventListener('load', (e) => {
+      entry.target.classList.remove('lazy-img');
+    });
+    observer.unobserve(entry.target);
+    console.log(entry);
+  });
+}
+const imgObserver = new IntersectionObserver(loadImages, {
+  root: null,
+  threshold: 0
+});
+lazyImgs.forEach(lazyImg => imgObserver.observe(lazyImg));
+
+///////////////////////////////
