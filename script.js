@@ -160,42 +160,84 @@ const allSections = document.querySelectorAll('.section');
 
 const config = {
   root: null,
-  threshold: 0.1
-}
+  threshold: 0.1,
+};
 
-const revealContent = function (entries, observer){
+const revealContent = function (entries, observer) {
   const [entry] = entries;
-  if(!entry.isIntersecting) return
-    entry.target.classList.remove('section--hidden');
-    observer.unobserve(entry.target);
-}
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
 
 const contentObserver = new IntersectionObserver(revealContent, config);
 
-allSections.forEach(function(section){
+allSections.forEach(function (section) {
   contentObserver.observe(section);
-  section.classList.add('section--hidden');
-})
+  // section.classList.add('section--hidden');
+});
 
 ////////////////////////////////Lazy Loading Images////////////////////////
 
 const lazyImgs = document.querySelectorAll('img[data-src]');
-const loadImages = function(entries, observer){
+const loadImages = function (entries, observer) {
   entries.forEach(entry => {
     //the guard clause technique
-    if(!entry.isIntersecting) return
+    if (!entry.isIntersecting) return;
     entry.target.src = entry.target.dataset.src;
-    entry.target.addEventListener('load', (e) => {
+    entry.target.addEventListener('load', e => {
       entry.target.classList.remove('lazy-img');
     });
     observer.unobserve(entry.target);
-    console.log(entry);
   });
-}
+};
 const imgObserver = new IntersectionObserver(loadImages, {
   root: null,
-  threshold: 0
+  threshold: 0,
 });
 lazyImgs.forEach(lazyImg => imgObserver.observe(lazyImg));
 
-///////////////////////////////
+///////////////////////////////Building Slider//////////////////////////////
+
+const slides = document.querySelectorAll('.slide');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+const slider = document.querySelector('.slider');
+let currSlid = 0;
+let maxSilds = slides.length
+
+slider.style.transform = 'scale(0.4)';
+slider.style.overflow = 'visible';
+
+
+slides.forEach((slide, i) => slide.style.transform = `translateX(${i*100}%)`);
+
+btnRight.addEventListener('click', ()=>{
+  if(currSlid === maxSilds-1){
+    currSlid = 0;
+  }else{
+    currSlid++
+  }
+  slides.forEach((slide, i) => {
+    console.log(i-currSlid)
+    slide.style.transform = `translateX(${(i-currSlid)*100}%)`;
+  });
+  console.log(currSlid);
+});
+
+btnLeft.addEventListener('click', ()=>{
+  if(currSlid === 0){
+    currSlid = maxSilds - 1;
+  }else{
+    currSlid--
+  }
+  slides.forEach((slide, i) => {
+    console.log(i-currSlid)
+    slide.style.transform = `translateX(${(i-currSlid)*100}%)`;
+  });
+  console.log(currSlid);
+});
+
+
+
+
