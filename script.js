@@ -255,7 +255,7 @@ const autoSlider = function(){
   }else{
     currSlid = 0;
     movSlides(currSlid);
-    activateDots(curreSlid);
+    activateDots(currSlid);
   }
 }
 const init = function () {
