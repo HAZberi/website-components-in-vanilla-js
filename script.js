@@ -204,38 +204,28 @@ const btnRight = document.querySelector('.slider__btn--right');
 const btnLeft = document.querySelector('.slider__btn--left');
 const slider = document.querySelector('.slider');
 let currSlid = 0;
-let maxSilds = slides.length
+let maxSilds = slides.length;
+const movSlides = function (currentSlide){
 
-slider.style.transform = 'scale(0.4)';
-slider.style.overflow = 'visible';
+  slides.forEach((slide, i) => slide.style.transform = `translateX(${(i-currentSlide)*100}%)`);
 
-
-slides.forEach((slide, i) => slide.style.transform = `translateX(${i*100}%)`);
-
+}
+movSlides(0);
 btnRight.addEventListener('click', ()=>{
   if(currSlid === maxSilds-1){
     currSlid = 0;
   }else{
     currSlid++
   }
-  slides.forEach((slide, i) => {
-    console.log(i-currSlid)
-    slide.style.transform = `translateX(${(i-currSlid)*100}%)`;
-  });
-  console.log(currSlid);
+  movSlides(currSlid);
 });
-
 btnLeft.addEventListener('click', ()=>{
   if(currSlid === 0){
     currSlid = maxSilds - 1;
   }else{
     currSlid--
   }
-  slides.forEach((slide, i) => {
-    console.log(i-currSlid)
-    slide.style.transform = `translateX(${(i-currSlid)*100}%)`;
-  });
-  console.log(currSlid);
+  movSlides(currSlid);
 });
 
 
