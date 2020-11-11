@@ -493,3 +493,15 @@ dotContainer.addEventListener('click', function (e) {
     activateDots(slide);
   }
 }); */
+
+//////////////////////////////////Dom Lifecycle////////////////////////
+/* 
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML Content parsed and loaded', e);
+});
+
+document.addEventListener('load', function (e) {
+  console.log('All the scripts and external resources are loaded', e);
+});
+ */
+///////////////////////////////Efficient Script Loading///////////////
